@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15天後日期計算器</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #result {
+            color: red;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        button {
+            background-color: orange;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>15天後日期計算器</h1>
+    <p id="currentDateTime"></p>
+    <button onclick="calculateFutureDate()">計算15天後日期</button>
+    <p id="result"></p>
+
+    <script>
+    // 定義特別假期
+    const specialHolidays = {
+        "2024-09-18": "中秋節翌日",
+        "2024-10-01": "中華人民共和國國慶日",
+        "2024-10-02": "中華人民共和國國慶日翌日",
+        "2024-10-11": "重陽節",
+        "2024-11-02": "追思節",
+        "2024-11-04": "追思節的補假",
+        "2024-12-08": "聖母無原罪瞻禮",
+        "2024-12-09": "聖母無原罪瞻禮的補假",
+        "2024-12-20": "澳門特別行政區成立紀念日",
+        "2024-12-21": "冬至",
+        "2024-12-23": "冬至的補假",
+        "2024-12-24": "聖誕節前日",
+        "2024-12-25": "聖誕節",
+        "2024-12-31": "除夕",
+        "2025-01-01": "元旦",
+        "2025-01-28": "農曆除夕",
+        "2025-01-29": "農曆正月初一",
+        "2025-01-30": "農曆正月初二",
+        "2025-01-31": "農曆正月初三",
+        "2025-04-04": "清明節",
+        "2025-04-18": "耶穌受難日",
+        "2025-04-19": "復活節前日",
+        "2025-04-21": "復活節前日的補假",
+        "2025-05-01": "勞動節",
+        "2025-05-05": "佛誕節",
+        "2025-05-31": "端午節",
+        "2025-06-02": "端午節的補假",
+        "2025-10-01": "中華人民共和國國慶日",
+        "2025-10-02": "中華人民共和國國慶日翌日",
+        "2025-10-07": "中秋節翌日",
+        "2025-10-29": "重陽節",
+        "2025-11-02": "追思節",
+        "2025-11-03": "追思節的補假",
+        "2025-12-08": "聖母無原罪瞻禮",
+        "2025-12-20": "澳門特別行政區成立紀念日",
+        "2025-12-21": "冬至",
+        "2025-12-22": "澳門特別行政區成立紀念日的補假",
+        "2025-12-23": "冬至的補假",
+        "2025-12-24": "聖誕節前日",
+        "2025-12-25": "聖誕節",
+        "2025-12-31": "除夕"
+    };
+
+    // 定義星期幾的中文名稱
+    const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
+    function updateCurrentDateTime() {
+        const now = new Date();
+        const options = { 
+            timeZone: 'Asia/Shanghai',
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        };
+        const dateTimeStr = now.toLocaleString('zh-CN', options);
+        document.getElementById('currentDateTime').textContent = `當前日期和時間：${dateTimeStr}`;
+    }
+
+    function calculateFutureDate() {
+        const today = new Date();
+        let targetDate = new Date(today.getTime() + 15 * 24 * 60 * 60 * 1000);
+
+        while (true) {
+            const dayOfWeek = targetDate.getDay();
+            const dateStr = targetDate.toISOString().split('T')[0];
+
+            if (dayOfWeek === 0 || dayOfWeek === 6 || dateStr in specialHolidays) {
+                targetDate.setDate(targetDate.getDate() + 1);
+            } else {
+                break;
+            }
+        }
+
+        const result = `距離15天後的日期是：${targetDate.getFullYear()}年${targetDate.getMonth() + 1}月${targetDate.getDate()}日 ${weekdays[targetDate.getDay()]}`;
+        document.getElementById('result').textContent = result;
+    }
+
+    // 頁面加載時更新當前日期和時間
+    updateCurrentDateTime();
+    // 每秒更新一次當前日期和時間
+    setInterval(updateCurrentDateTime, 1000);
+    </script>
+</body>
+</html>

@@ -18,7 +18,7 @@
         }
         #result {
             color: red;
-            font-size: 18px;
+            font-size: 22px;
             margin-top: 20px;
         }
         button {
@@ -122,7 +122,7 @@
             }
         }
 
-        const result = `距離15天後的日期是：${targetDate.getFullYear()}年${targetDate.getMonth() + 1}月${targetDate.getDate()}日 ${weekdays[targetDate.getDay()]}`;
+        const result = `15日：${targetDate.getFullYear()}年${targetDate.getMonth() + 1}月${targetDate.getDate()}日 ${weekdays[targetDate.getDay()]}`;
         document.getElementById('result').textContent = result;
     }
 
